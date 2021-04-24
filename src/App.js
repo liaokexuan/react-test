@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     marginTop: '20px'
   },
+  login:{
+    fontSize:"50px",
+    textAlign:"center",
+    margin:"20px 0 0 0 ",
+    color: "grey"
+  }
  
 }));
 function App() {
@@ -49,12 +55,22 @@ function App() {
     debugger
       console.log(data)
   }
+ 
   const [name, setName] = useState("")
   const [value, setValue] = useState(false);
   const [openPopUp, setOpenPopUp] = useState(false)
   const [username,setUsername] = useState(null)
   const [isLogin,setIsLogin] = useState(false)
+  const [invalidLogin, setInvalidLogin] = useState(false)
 
+  const handleLoginAndLoginout=()=>{
+    if(isLogin){
+      setUsername(null);
+      setIsLogin(false);
+    }else{
+      setOpenPopUp(true);
+    }
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -65,13 +81,13 @@ function App() {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          <Button color="inherit" onClick={() => setOpenPopUp(true)}> Login</Button>
+          <Button color="inherit" onClick={handleLoginAndLoginout}>{isLogin?"Login out":"Login"} </Button>
         </Toolbar>
       </AppBar>
-      <Login openPopUp={openPopUp} setOpenPopUp={setOpenPopUp} isLogin={isLogin} setIsLogin={setIsLogin}>
-         <LoginForm username={username} setUsername={setUsername} getFormValue={getFormValue}/>
+      <Login openPopUp={openPopUp} setOpenPopUp={setOpenPopUp} setIsLogin={setIsLogin} setInvalidLogin={setInvalidLogin}>
+         <LoginForm username={username} setUsername={setUsername} getFormValue={getFormValue} setInvalidLogin={setInvalidLogin} invalidLogin={invalidLogin} />
       </Login>
-      {isLogin?<DataGridDemo classes={{dataGrid:'MuiDataGrid-main'}}/>: <LoginForm username={username} setUsername={setUsername} getFormValue={getFormValue}/>}
+      {isLogin?<DataGridDemo classes={{dataGrid:'MuiDataGrid-main'}}/>: <div className={classes.login}>Please login in the page</div>}
       {/* <input name="name" type="text" value={name} onChange={(e) => nameChange(e)} />
       <Count value={value} callBack={getData} />
       <button onClick={() => login()}>

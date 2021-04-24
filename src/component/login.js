@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import loginForm from './loginForm'
+import { SettingsOverscanOutlined } from '@material-ui/icons';
 
 const styles = (theme) => ({
   root: {
@@ -52,23 +53,27 @@ const DialogActions = withStyles((theme) => ({
 
 export default function Login(props) {
  // const [open, setOpen] = React.useState(false);
- const {openPopUp,setOpenPopUp,isLogin,setIsLogin,children}=props;
+ const {openPopUp,setOpenPopUp,setIsLogin,accessLoginF,children,setInvalidLogin}=props;
  
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
   const handleClose = () => {
-    let username= children.props.username
-    if(username ==="abc"){
+    debugger
+    let username= children.props.username;
+    if(username?.firstName ==="abc" && username?.lastName ==="abc"){
       setIsLogin(true);
        
       setOpenPopUp(false);
+    }
+    else{
+      setInvalidLogin(true);
     }
     
   };
   const handleCloseOutside=()=>{
     setOpenPopUp(false);
-
+    setInvalidLogin(false);
   }
 
   return (
@@ -81,7 +86,7 @@ export default function Login(props) {
              {children}
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus onClick={handleClose} variant="contained" color="primary">
            Login
           </Button>
         </DialogActions>
